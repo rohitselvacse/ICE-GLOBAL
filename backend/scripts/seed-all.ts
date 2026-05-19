@@ -21,6 +21,7 @@ const seeds: Seed[] = [
   { label: "buyer-mosaic", file: "scripts/seed-buyer-mosaic.ts" },
   { label: "vvips", file: "scripts/seed-vvips.ts" },
   { label: "ice-exhibition", file: "scripts/seed-ice-exhibition.ts" },
+  { label: "ice-legacy", file: "scripts/seed-ice-legacy.ts" },
   { label: "founders", file: "scripts/seed-founders.ts" },
   { label: "founders:list", file: "scripts/seed-founders-list.ts" },
   { label: "cofounders", file: "scripts/seed-cofounders.ts" },

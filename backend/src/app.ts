@@ -31,6 +31,7 @@ export const buildApp = () => {
   });
 
   app.register(registerRoutes);
+  
 
   return app;
 };

@@ -5,7 +5,6 @@ import { fileURLToPath, URL } from "node:url";
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::", // or "0.0.0.0" if you prefer IPv4 only
-    allowedHosts: true,
     port: 8080,
   },
   plugins: [

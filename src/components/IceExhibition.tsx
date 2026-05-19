@@ -9,6 +9,7 @@ import {
   mergeIceExhibitionContent,
 } from "@/data/ice-exhibition";
 import { expoImages } from "@/data/expo-data";
+import { FloatingNavbar } from "./ui/floating-navbar";
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || "";
 const mediaBase = (import.meta.env.VITE_MEDIA_BASE_URL || "").replace(/\/$/, "");
@@ -54,6 +55,7 @@ const IceExhibition = () => {
 
   return (
     <main className="min-h-screen bg-[#f7f8f3] text-[#172033]">
+       <FloatingNavbar />
       <section className="relative flex min-h-[64vh] items-center overflow-hidden md:min-h-[70vh]">
         <img
           src={resolveImage(content.hero.backgroundImage)}
@@ -65,11 +67,7 @@ const IceExhibition = () => {
         
         <div className="container-custom relative z-10 py-20">
           <div className="max-w-3xl">
-            <Link to="/">
-
-            <Button className="bg-green text-white mx-2 " >Back to Home</Button>
-
-            </Link>
+           
             <span className="inline-flex rounded-full border border-white/30 bg-white/[0.15] px-4 py-2 text-sm font-semibold uppercase tracking-[0.14em] text-white backdrop-blur">
               {content.hero.chip}
             </span>

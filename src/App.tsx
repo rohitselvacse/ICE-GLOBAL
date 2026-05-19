@@ -93,6 +93,7 @@ import AdminTeamEditor from "./pages/AdminTeamEditor";
 import AdminTestimonialEditor from "./pages/AdminTestimonialEditor";
 import AdminMediaConfig from "./pages/AdminMediaConfig";
 import AdminIceExhibition from "./pages/AdminIceExhibition";
+import AdminIceLegacy from "./pages/AdminIceLegacy";
 import ThemeLoader from "./components/ThemeLoader";
 import { toast } from "@/components/ui/sonner";
 import { ADMIN_SESSION_EXPIRED_EVENT } from "./lib/admin-session";
@@ -101,6 +102,12 @@ import IgenNew from "./components/IgenNew";
 import IgenWorld from "./components/IgenWorld";
 import IgenExpo from "./components/IgenExpo";
 import IceExhibition from "./components/IceExhibition";
+import IceLegacyFounderVision from "./pages/IceLegacyFounderVision";
+import IceLegacyPhilosophy from "./pages/IceLegacyPhilosophy";
+import ICELegacyPage from "./pages/Mission&Vision";
+import IceJourney from "./pages/IceJournery";
+import Timeline from "./pages/Timeline";
+import Milestones from "./pages/MileStones";
 
 const queryClient = new QueryClient();
 
@@ -528,6 +535,14 @@ const App = () => (
             }
           />
           <Route
+            path="/admin/ice-legacy"
+            element={
+              <AdminGuard>
+                <AdminIceLegacy />
+              </AdminGuard>
+            }
+          />
+          <Route
             path="/admin/buyer-mosaic"
             element={
               <AdminGuard>
@@ -614,17 +629,23 @@ const App = () => (
           <Route path="/terms" element={<Terms />} />
           <Route path="/cookies" element={<Cookies />} />
           <Route path="/test" element={<TestPage />} />
-          <Route path="/Igen News" element={<IgenNew/>}/>
-          <Route path="/Igen World" element={<IgenWorld/>}/>
-          <Route path="/Igen Expo" element={<IgenExpo/>}/>
           {/* <Route path="/ice-exhibition" element={<IceExhibition />} /> */}
           <Route path="/ice-exihibition" element={<IceExhibition />} />
+          <Route path="/ice-legacy/founder-vision" element={<IceLegacyFounderVision />} />
+          <Route path="/ice-legacy/sushil-mantri-story" element={<IceLegacyFounderVision />} />
+          <Route path="/ice-legacy/philosophy" element={<IceLegacyPhilosophy />} />
+          <Route path="/ice-legacy/marketplace-philosophy" element={<IceLegacyPhilosophy />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallery/GalleryIndividuals" element={<GalleryIndividuals />} />
       <Route path="/gallery/:id" element={<GalleryDetail />} />
       <Route path="/me" element={<Me />} />
           <Route path="/brands/:slug" element={<BrandDetail />} />
           <Route path="/gallery/:slug" element={<GalleryDetail />} />
+          <Route path="/ice-legacy/mission-vision" element={<ICELegacyPage />} />
+          <Route path="/ice-legacy/30-year-journey" element={<IceJourney/>} />
+          <Route path="/ice-legacy/timeline" element={<Timeline/>} />
+          <Route path="/ice-legacy/milestones" element={<Milestones/>} />
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

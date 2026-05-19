@@ -374,7 +374,5 @@ export const navItems = [
   { name: "Ice Legacy", href: "/gallery" },
   { name: "Exhibited At Ice", href: "/about" },
   { name: "Contact", href: "/contact" },
-  { name: "Igen World", href: "/IgenWorld" },
-  { name: "Igen expo", href: "/igenExpo" },
-  { name: "Igen news", href: "/igenNews" },
+ 
 ];

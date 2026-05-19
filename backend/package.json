@@ -25,6 +25,7 @@
     "seed:buyer-mosaic": "tsx scripts/seed-buyer-mosaic.ts",
     "seed:vvips": "tsx scripts/seed-vvips.ts",
     "seed:ice-exhibition": "tsx scripts/seed-ice-exhibition.ts",
+    "seed:ice-legacy": "tsx scripts/seed-ice-legacy.ts",
     "seed:founders": "tsx scripts/seed-founders.ts",
     "seed:cofounders": "tsx scripts/seed-cofounders.ts",
     "seed:cofounders:list": "tsx scripts/seed-cofounders-list.ts",

@@ -47,6 +47,7 @@ import digestLogsRoutes from "./digest-logs/routes";
 import activityRoutes from "./activity/routes";
 import homeLayoutRoutes from "./home-layout/routes";
 import iceExhibitionRoutes from "./ice-exhibition/routes";
+import iceLegacyRoutes from "./ice-legacy/routes";
 
 export default async function registerRoutes(app: FastifyInstance) {
   await app.register(healthRoutes);
@@ -97,4 +98,5 @@ export default async function registerRoutes(app: FastifyInstance) {
   await app.register(activityRoutes);
   await app.register(homeLayoutRoutes);
   await app.register(iceExhibitionRoutes);
+  await app.register(iceLegacyRoutes);
 }
