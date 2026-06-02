@@ -20,7 +20,7 @@ interface NavItem {
 }
 
 interface FloatingNavbarProps {
-  // navItems?: NavItem[];
+  navItems?: NavItem[];
   className?: string;
 }
 
@@ -325,13 +325,13 @@ const MegaDropdown = ({ item, isActive }: { item: NavItem; isActive: boolean }) 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.18 }}
-            className="fixed left-0 right-0 mt-2 z-50 px-4"
+            className="fixed left-0 right-0 top-full h- mt-2 z-50 px-4"
             style={{ top: "60px" }}
             onMouseEnter={onEnter}
             onMouseLeave={onLeave}
           >
             <div className="max-w-6xl mx-auto rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
-              <div className="grid grid-cols-4 divide-x divide-border">
+              <div className="grid grid-cols-4 divide-x divide-border h-full">
                 {/* Left — title + description + CTA */}
                 <div className="p-6 bg-primary/5 flex flex-col justify-between">
                   <div>
@@ -372,7 +372,7 @@ const MegaDropdown = ({ item, isActive }: { item: NavItem; isActive: boolean }) 
 
 // ─── FloatingNavbar ────────────────────────────────────────────────────────────
 export const FloatingNavbar = ({
-  // navItems = defaultNavItems,
+  navItems,
   className,
 }: FloatingNavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -439,7 +439,9 @@ export const FloatingNavbar = ({
       .catch(() => {});
   }, []);
 
-  // useEffect(() => { setItems(navItems ?? defaultNavItems); }, [navItems]);
+  useEffect(() => {
+    if (navItems?.length) setItems(navItems);
+  }, [navItems]);
   useEffect(() => { setIsMobileMenuOpen(false); setMobileOpenItem(null); }, [location.pathname]);
 
   return (
@@ -453,7 +455,7 @@ export const FloatingNavbar = ({
     "fixed top-0 inset-x-0 z-50 px-1 md:px-2 py-3 transition-all duration-300",
     isScrolled
       ? "bg-card/90 backdrop-blur-xl border-b border-border shadow-xl"
-      : "bg-transparent",
+      : "bg-card/60 backdrop-blur-sm",
     className
   )}
 >
@@ -480,13 +482,13 @@ export const FloatingNavbar = ({
           </Link>
 
           {/* Desktop nav links */}
-          <div className="hidden md:flex items-center gap-0.5 flex-1 flex-wrap">
+          <div className="hidden md:flex items-center gap-0.5  flex-1 flex-wrap">
             {items.map((item) => (
               <MegaDropdown key={item.name} item={item} isActive={location.pathname === item.href} />
             ))}
 
             {/* Auth */}
-            <div className="ml-auto flex items-center gap-2 flex-shrink-0">
+            <div className="ml-auto flex items-center gap-2  flex-shrink-0">
               {showMe ? (
                 <Link to="/me" className={cn("px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap", location.pathname === "/me" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-card")}>
                   <span className="inline-flex items-center gap-1"><UserCircle2 className="w-4 h-4" /> Me</span>
@@ -518,7 +520,7 @@ export const FloatingNavbar = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-background/97 backdrop-blur-xl pt-20 overflow-y-auto"
+            className="fixed inset-0 z-40 bg-background/97  backdrop-blur-xl pt-20 overflow-y-auto"
           >
             <div className="flex flex-col px-6 pb-10">
               {items.map((item, index) => {

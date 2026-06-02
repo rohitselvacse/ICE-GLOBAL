@@ -46,8 +46,29 @@ import digestsRoutes from "./digests/routes";
 import digestLogsRoutes from "./digest-logs/routes";
 import activityRoutes from "./activity/routes";
 import homeLayoutRoutes from "./home-layout/routes";
-import iceExhibitionRoutes from "./ice-exhibition/routes";
+
 import iceLegacyRoutes from "./ice-legacy/routes";
+
+import BrandRoutes from "./icelegacy/Brand Evolution/routes";
+import BuildingBuyerRoutes from "./icelegacy/Building Buyer Trust Since 1994/routes";
+import HistoricRoutes from "./icelegacy/Historic Brand Participation/routes";
+import HistoricBrandRoutes from "./icelegacy/Historic Brand Participation/routes";
+import HistoricExihibitionRoutes from "./icelegacy/Historic Exhibitions Archive/routes";
+import newsRoutes from "./icelegacy/Historic Newspaper Coverage/routes";
+import IcetoIgenRoutes from "./icelegacy/ICE 1.0 to iGEN 2.0/routes";
+import AcrossGenerationRoutes from "./icelegacy/ICE Across Generations/routes";
+import EconomicContributionRoutes from "./icelegacy/ICE Economic Contribution/routes";
+import MilestonesRoutes from "./icelegacy/ICE Milestones/routes";
+import DecadesRoutes from "./icelegacy/ICE Through The Decades/routes";
+import TimelineRoutes from "./icelegacy/ICE Timeline/routes";
+import LeadershipRoutes from "./icelegacy/Marketplace Leadership/routes";
+import MissionVissionRoutes from "./icelegacy/Mission & Vision/routes";
+import JourneyRoutes from "./icelegacy/Our 30-Year Journey/routes";
+import PhilosophyRoutes from "./icelegacy/Our Marketplace Philosophy/routes";
+import SushilMantriRoutes from "./icelegacy/The Sushil Mantri Story/routes";
+import FounderRoutes from "./icelegacy/founderVision/routes";
+import ExihibitionRoutes from "./icelegacy/About ICE Exhibitions/routes ";
+import IceSectionsRoutes from "./ice-legacy/routes";
 
 export default async function registerRoutes(app: FastifyInstance) {
   await app.register(healthRoutes);
@@ -97,6 +118,25 @@ export default async function registerRoutes(app: FastifyInstance) {
   await app.register(digestLogsRoutes);
   await app.register(activityRoutes);
   await app.register(homeLayoutRoutes);
-  await app.register(iceExhibitionRoutes);
-  await app.register(iceLegacyRoutes);
+  await app.register(ExihibitionRoutes);
+  await app.register(IceSectionsRoutes);
+  // await app.register(iceGenerationRoutes);
+  // await app.register(iceLegacyRoutes);
+  // await app.register(BrandRoutes)
+  // await app.register(BuildingBuyerRoutes)
+  // await app.register(FounderRoutes)
+  // await app.register(HistoricBrandRoutes)
+  // await app.register(HistoricExihibitionRoutes)
+  // await app.register(newsRoutes)
+  // await app.register(IcetoIgenRoutes)
+  // await app.register(AcrossGenerationRoutes)
+  // await app.register(EconomicContributionRoutes)
+  // await app.register(MilestonesRoutes)
+  // await app.register(DecadesRoutes)
+  // await app.register(TimelineRoutes)
+  // await app.register(LeadershipRoutes)
+  // await app.register(MissionVissionRoutes)
+  // await app.register(JourneyRoutes)
+  // await app.register(PhilosophyRoutes)
+  // await app.register(SushilMantriRoutes)
 }

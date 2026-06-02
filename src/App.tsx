@@ -92,22 +92,56 @@ import AdminHomeLayout from "./pages/AdminHomeLayout";
 import AdminTeamEditor from "./pages/AdminTeamEditor";
 import AdminTestimonialEditor from "./pages/AdminTestimonialEditor";
 import AdminMediaConfig from "./pages/AdminMediaConfig";
-import AdminIceExhibition from "./pages/AdminIceExhibition";
-import AdminIceLegacy from "./pages/AdminIceLegacy";
+
 import ThemeLoader from "./components/ThemeLoader";
 import { toast } from "@/components/ui/sonner";
 import { ADMIN_SESSION_EXPIRED_EVENT } from "./lib/admin-session";
 import GalleryIndividuals from "./components/GalleryIndividuals";
-import IgenNew from "./components/IgenNew";
-import IgenWorld from "./components/IgenWorld";
-import IgenExpo from "./components/IgenExpo";
 import IceExhibition from "./components/IceExhibition";
-import IceLegacyFounderVision from "./pages/IceLegacyFounderVision";
-import IceLegacyPhilosophy from "./pages/IceLegacyPhilosophy";
-import ICELegacyPage from "./pages/Mission&Vision";
-import IceJourney from "./pages/IceJournery";
+
+
+import IceLegacyWhyIndiaTrusts from "./pages/legacy/IceLegacyWhyIndiaTrusts";
+
+
 import Timeline from "./pages/Timeline";
-import Milestones from "./pages/MileStones";
+import Milestones from "./pages/Milestones";
+;
+import AdminIceLegacytrust from "./pages/legacy/AdminFounderVision";
+import BuildingBuyerTrust from "./pages/legacy/BuildingBuyerTrust";
+import IceExihibition from "./pages/legacy/IceExihibition";
+import FounderVision from "./pages/legacy/FounderVision";
+import Philosophy from "./pages/legacy/Philosophy";
+import MissionVission from "./pages/legacy/MissionVission";
+import TimeLine from "./pages/legacy/TimeLine";
+import MileStone from "./pages/legacy/MileStone";
+import Generation from "./pages/legacy/Generation";
+import Markeplaceleadership from "./pages/legacy/Markeplaceleadership";
+import IcebrandEvolution from "./pages/legacy/IcebrandEvolution";
+import HistoricAchieve from "./pages/legacy/HistoricAchieve";
+import HistoricBrandParticipation from "./pages/legacy/HistoricbrandParticipation";
+import Decades from "./pages/legacy/Decades";
+import NewpaperCoverage from "./pages/legacy/newpaperCoverage";
+import SushilMantri from "./pages/legacy/SushilMantri";
+import IcetoIgen from "./pages/legacy/IcetoIgen";
+import EconomicContribution from "./pages/legacy/EconomicContribution";
+import IceJourney from "./pages/legacy/IceJourney";
+import Adminabout from "./pages/legacy/AdminICE Exhibitions";
+import AdminFounderVision from "./pages/legacy/AdminFounderVision";
+import AdminPhilosophy from "./pages/legacy/AdminMarketplace Philosophy";
+import AdminMissionVission from "./pages/legacy/AdminMissionVission";
+import AdminJourney from "./pages/legacy/Admin30yearsJourney";
+import AdminIceTimeline from "./pages/legacy/AdminIceTimeline";
+import AdminMilestone from "./pages/legacy/AdminMilestone";
+import AdminBuildingBuyertrust from "./pages/legacy/AdminBuildingBuyers";
+import AdminLeadership from "./pages/legacy/AdminLeadership";
+import AdminIceBrand from "./pages/legacy/AdminIceBrand";
+import AdminHistoricAchieve from "./pages/legacy/AdminHistoricAchieve";
+import AdminHistoricBrand from "./pages/legacy/AdminHistoricBrand";
+import AdminthroughDecades from "./pages/legacy/AdminIceThroughDecades";
+import AdminNewspaper from "./pages/legacy/AdminNewpaper";
+import AdminSushilMantri from "./pages/legacy/AdminsushilMantri";
+import AdminIcetoIgen from "./pages/legacy/AdminIcetoIgen";
+import AdminEconomic from "./pages/legacy/AdminEconomicExihibition";
 
 const queryClient = new QueryClient();
 
@@ -238,6 +272,14 @@ const App = () => (
               </AdminGuard>
             }
           />
+          {/* <Route
+            path="/admin/Ice Across Generations"
+            element={
+              <AdminGuard>
+                <AdminIceGeneration />
+              </AdminGuard>
+            }
+          /> */}
           <Route
             path="/admin/privacy"
             element={
@@ -527,21 +569,159 @@ const App = () => (
             }
           />
           <Route
-            path="/admin/ice-exhibition"
+            path="/admin/about-ice-exhibition"
             element={
               <AdminGuard>
-                <AdminIceExhibition />
+                <Adminabout />
               </AdminGuard>
             }
           />
           <Route
-            path="/admin/ice-legacy"
+            path="/admin/ice-legacy/founder-vision"
             element={
               <AdminGuard>
-                <AdminIceLegacy />
+                <AdminFounderVision />
               </AdminGuard>
             }
           />
+          <Route
+            path="/admin/ice-legacy/philosophy"
+            element={
+              <AdminGuard>
+                <AdminPhilosophy />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/mission-vision"
+            element={
+              <AdminGuard>
+                <AdminMissionVission />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/30-year-journey"
+            element={
+              <AdminGuard>
+                <AdminJourney />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/timeline"
+            element={
+              <AdminGuard>
+                <AdminIceTimeline />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/milestones"
+            element={
+              <AdminGuard>
+                <AdminMilestone />
+              </AdminGuard>
+            }
+          />
+          {/* <Route
+            path="/admin/ice-legacy/generations"
+            element={
+              <AdminGuard>
+                <AdminMilestone />
+              </AdminGuard>
+            }
+          /> */}
+          <Route
+            path="/admin/ice-legacy/buyer-trust"
+            element={
+              <AdminGuard>
+                <AdminBuildingBuyertrust />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/marketplace-leadership"
+            element={
+              <AdminGuard>
+                <AdminLeadership />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/brand-evolution"
+            element={
+              <AdminGuard>
+                <AdminIceBrand />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/historic-archive"
+            element={
+              <AdminGuard>
+                <AdminHistoricAchieve />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/historic-brands"
+            element={
+              <AdminGuard>
+                <AdminHistoricBrand />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/through-decades"
+            element={
+              <AdminGuard>
+                <AdminthroughDecades />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/newspaper-coverage"
+            element={
+              <AdminGuard>
+                <AdminNewspaper />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/sushil-mantri-story"
+            element={
+              <AdminGuard>
+                <AdminSushilMantri />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/ice-to-igen"
+            element={
+              <AdminGuard>
+                <AdminIcetoIgen />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/ice-legacy/economic-contribution"
+            element={
+              <AdminGuard>
+                <AdminEconomic />
+              </AdminGuard>
+            }
+          />
+          {/* <Route
+            path="/admin/about-ice-exhibition"
+            element={
+              <AdminGuard>
+                <Adminabout />
+              </AdminGuard>
+            }
+          /> */}
+          
+          
           <Route
             path="/admin/buyer-mosaic"
             element={
@@ -629,22 +809,34 @@ const App = () => (
           <Route path="/terms" element={<Terms />} />
           <Route path="/cookies" element={<Cookies />} />
           <Route path="/test" element={<TestPage />} />
-          {/* <Route path="/ice-exhibition" element={<IceExhibition />} /> */}
-          <Route path="/ice-exihibition" element={<IceExhibition />} />
-          <Route path="/ice-legacy/founder-vision" element={<IceLegacyFounderVision />} />
-          <Route path="/ice-legacy/sushil-mantri-story" element={<IceLegacyFounderVision />} />
-          <Route path="/ice-legacy/philosophy" element={<IceLegacyPhilosophy />} />
-          <Route path="/ice-legacy/marketplace-philosophy" element={<IceLegacyPhilosophy />} />
+          <Route path="/ice-legacy/buyer-trust" element={<BuildingBuyerTrust />} />
+          <Route path="/ice-exihibition" element={<IceExihibition />} />
+          <Route path="/ice-legacy/founder-vision" element={<FounderVision />} />
+          <Route path="/ice-legacy/philosophy" element={<Philosophy />} />
+          <Route path="/ice-legacy/mission-vision" element={<MissionVission />} />
+          <Route path="/ice-legacy/30-year-journey" element={<IceJourney />} />
+          <Route path="/ice-legacy/timeline" element={<TimeLine />} />
+          <Route path="/ice-legacy/milestones" element={<MileStone />} />
+          <Route path="/ice-legacy/generations" element={<Generation />} />
+          <Route path="/ice-legacy/marketplace-leadership" element={<Markeplaceleadership />} />
+          <Route path="/ice-legacy/brand-evolution" element={<IcebrandEvolution />} />
+          <Route path="/ice-legacy/historic-archive" element={<HistoricAchieve />} />
+          <Route path="/ice-legacy/historic-brands" element={<HistoricBrandParticipation />} />
+          <Route path="/ice-legacy/through-decades" element={<Decades />} />
+          <Route path="/ice-legacy/newspaper-coverage" element={<NewpaperCoverage />} />
+          <Route path="/ice-legacy/sushil-mantri-story" element={<SushilMantri />} />
+          <Route path="/ice-legacy/ice-to-igen" element={<IcetoIgen />} />
+          <Route path="/ice-legacy/economic-contribution" element={<EconomicContribution />} />
+         
+          <Route path="/ice-legacy/why-india-trusts" element={<IceLegacyWhyIndiaTrusts />} />
+         
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallery/GalleryIndividuals" element={<GalleryIndividuals />} />
       <Route path="/gallery/:id" element={<GalleryDetail />} />
       <Route path="/me" element={<Me />} />
           <Route path="/brands/:slug" element={<BrandDetail />} />
           <Route path="/gallery/:slug" element={<GalleryDetail />} />
-          <Route path="/ice-legacy/mission-vision" element={<ICELegacyPage />} />
-          <Route path="/ice-legacy/30-year-journey" element={<IceJourney/>} />
-          <Route path="/ice-legacy/timeline" element={<Timeline/>} />
-          <Route path="/ice-legacy/milestones" element={<Milestones/>} />
+          
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::", // or "0.0.0.0" if you prefer IPv4 only
     port: 8080,
+    allowedHosts: true,
   },
   plugins: [
     react(),

@@ -7,6 +7,7 @@ import AdminSidebar from "@/components/admin/AdminSidebar";
 interface AdminLayoutProps {
   title?: string;
   description?: string;
+  navItems?: { name: string; href: string }[];
   sections: AdminSectionLink[];
   children: ReactNode;
 }
