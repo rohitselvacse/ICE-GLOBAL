@@ -1,0 +1,61 @@
+services:
+
+  redis:
+    image: redis:7-alpine
+    container_name: iceglobal-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass sanjay12
+    volumes:
+      - redis_data:/data
+    networks:
+      - iceglobal-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "sanjay12", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: iceglobal-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      REDIS_URL: redis://:sanjay12@redis:6379/0
+      REDIS_PASSWORD: sanjay12
+      MONGO_URI: mongodb://admin:mongo998877@host.docker.internal:27018/?authSource=admin
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - iceglobal-net
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        VITE_API_BASE_URL: /api
+        VITE_MEDIA_BASE_URL: https://ice-global.b-cdn.net
+    container_name: iceglobal-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - iceglobal-net
+
+networks:
+  iceglobal-net:
+    name: iceglobal-net
+    driver: bridge
+
+volumes:
+  redis_data:
+    name: iceglobal_redis_data
