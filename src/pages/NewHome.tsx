@@ -511,7 +511,7 @@ const fetchBrands = async () => {
     if (!res.ok) throw new Error("Brands fetch failed");
 
     const data = await res.json();
-    console.log("Brands API response:", data);
+    // console.log("Brands API response:", data);
 
     setBrandsData({
       eyebrow: data.eyebrow || "Trustworthy Leaders",
@@ -811,7 +811,7 @@ const fetchBrands = async () => {
 
     const data = await res.json();
 
-    console.log("Footer API:", data); // 👈 ADD THIS
+    // console.log("Footer API:", data); // 👈 ADD THIS
 
     setFooterData(data.data || data); // 👈 FIX
   } catch {

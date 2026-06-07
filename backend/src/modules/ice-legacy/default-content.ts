@@ -603,7 +603,8 @@ export const defaultIceLegacy = {
       "National Media Covered",
       "Bollywood Endorsed",
       "India's #1 Consumer Expo",
-    ],
+    ]
+  
   },
 
   // ───────────────────────────────────────────────────────────────────────────

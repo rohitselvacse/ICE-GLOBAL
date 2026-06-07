@@ -1,3 +1,7 @@
+
+
+
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -138,14 +142,14 @@ const MEGA_MENUS: Record<string, { description: string; items: DropdownItem[] }>
   "Brands & Success": {
     description: "Real brands. Real results. Real proof.",
     items: [
-      { name: "Top Brands at ICE",          href: "/brands" },
+      { name: "Top Brands at ICE",          href: "/brands/topbrands" },
       { name: "Historic Brand Participation",href: "/brands/historic" },
       { name: "Emerging Brands at ICE",     href: "/brands/emerging" },
       { name: "Brand Success Stories",      href: "/brands/success-stories" },
       { name: "Marketplace Leaders",        href: "/brands/marketplace-leaders" },
       { name: "Startup Success Stories",    href: "/brands/startups" },
-      { name: "Seller Success Stories",     href: "/sellers" },
-      { name: "Buyer Success Stories",      href: "/buyers" },
+      { name: "Seller Success Stories",     href: "/brands/seller" },
+      { name: "Buyer Success Stories",      href: "/buyers/stories" },
       { name: "Business Expansion Stories", href: "/brands/expansion" },
       { name: "Product Launch Stories",     href: "/brands/product-launches" },
       { name: "Video Testimonials",         href: "/brands/video-testimonials" },
@@ -163,7 +167,7 @@ const MEGA_MENUS: Record<string, { description: string; items: DropdownItem[] }>
       { name: "Multi-City Event Schedule",   href: "/expos/multi-city" },
       { name: "Exhibitor Registration",      href: "/expos/exhibitor-registration" },
       { name: "Visitor Registration",        href: "/expos/visitor-registration" },
-      { name: "Sponsorship Registration",    href: "/sponsor" },
+      { name: "Sponsorship Registration",    href: "/upcoming/sponsor" },
       { name: "VIP Access Registration",     href: "/expos/vip-access" },
       { name: "Early Bird Booking",          href: "/expos/early-bird" },
       { name: "Launch Events",               href: "/expos/launch-events" },
@@ -215,7 +219,7 @@ const MEGA_MENUS: Record<string, { description: string; items: DropdownItem[] }>
   "Investor & Partnership": {
     description: "Invest, partner, collaborate or join the ICE team.",
     items: [
-      { name: "Partnership Opportunities",      href: "/partner" },
+      { name: "Partnership Opportunities",      href: "/partnership" },
       { name: "Investor Relations",             href: "/invest/investor-relations" },
       { name: "Strategic Alliances",            href: "/invest/strategic-alliances" },
       { name: "International Trade Partnerships",href: "/invest/international-trade" },
@@ -235,53 +239,229 @@ const MEGA_MENUS: Record<string, { description: string; items: DropdownItem[] }>
 };
 
 // ─── Theme engine ──────────────────────────────────────────────────────────────
+// step 0 = full light (default)
+// step 1 = NAVBAR + MEGA MENUS go dark — page body stays light
+// step 2 = FULL dark — navbar + mega menus + entire body + all page content
 const STYLE_ID = "ice-theme-override";
+type ThemeStep = 0 | 1 | 2;
 
-function applyTheme(dark: boolean) {
-  if (dark) {
+function applyThemeStep(step: ThemeStep) {
+  // Only step 2 applies Tailwind dark class to <html>
+  if (step === 2) {
     document.documentElement.classList.add("dark");
   } else {
     document.documentElement.classList.remove("dark");
   }
+
   let el = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
   if (!el) {
     el = document.createElement("style");
     el.id = STYLE_ID;
     document.head.appendChild(el);
   }
-  el.textContent = dark
-    ? `:root{color-scheme:dark;--background:0 0% 5%;--foreground:0 0% 98%;--card:0 0% 8%;--card-foreground:0 0% 98%;--popover:0 0% 5%;--popover-foreground:0 0% 98%;--primary:217 91% 60%;--primary-foreground:0 0% 5%;--secondary:0 0% 12%;--secondary-foreground:0 0% 98%;--muted:0 0% 12%;--muted-foreground:0 0% 60%;--accent:0 0% 12%;--accent-foreground:0 0% 98%;--border:0 0% 15%;--input:0 0% 15%;--ring:217 91% 60%;}body,#root{background-color:hsl(0,0%,5%)!important;color:hsl(0,0%,98%)!important;}`
-    : `:root{color-scheme:light;--background:0 0% 100%;--foreground:0 0% 5%;--card:0 0% 100%;--card-foreground:0 0% 5%;--popover:0 0% 100%;--popover-foreground:0 0% 5%;--primary:217 91% 60%;--primary-foreground:0 0% 100%;--secondary:210 40% 96%;--secondary-foreground:0 0% 5%;--muted:210 40% 96%;--muted-foreground:215 16% 47%;--accent:210 40% 96%;--accent-foreground:0 0% 5%;--border:214 32% 91%;--input:214 32% 91%;--ring:217 91% 60%;}body,#root{background-color:hsl(0,0%,100%)!important;color:hsl(0,0%,5%)!important;}`;
-  localStorage.setItem("theme", dark ? "dark" : "light");
+
+  if (step === 0) {
+    // ── Full light ────────────────────────────────────────────────────────────
+    el.textContent = `
+      :root {
+        color-scheme: light;
+        --background:0 0% 100%; --foreground:0 0% 5%;
+        --card:0 0% 100%; --card-foreground:0 0% 5%;
+        --popover:0 0% 100%; --popover-foreground:0 0% 5%;
+        --primary:217 91% 60%; --primary-foreground:0 0% 100%;
+        --secondary:210 40% 96%; --secondary-foreground:0 0% 5%;
+        --muted:210 40% 96%; --muted-foreground:215 16% 47%;
+        --accent:210 40% 96%; --accent-foreground:0 0% 5%;
+        --border:214 32% 91%; --input:214 32% 91%; --ring:217 91% 60%;
+      }
+      body,#root { background-color:hsl(0,0%,100%)!important; color:hsl(0,0%,5%)!important; }
+
+      .ice-navbar { background:hsla(0,0%,100%,0.85)!important; border-bottom:1px solid hsl(214,32%,91%)!important; box-shadow:none!important; }
+      .ice-logo-text { color:hsl(0,0%,5%)!important; }
+      .ice-nav-link { color:hsl(215,16%,47%)!important; text-shadow:none!important; transition:color 0.25s,background 0.25s!important; }
+      .ice-nav-link:hover { color:hsl(0,0%,5%)!important; background:hsla(0,0%,0%,0.05)!important; }
+      .ice-nav-link.active { color:hsl(217,91%,60%)!important; background:hsla(217,91%,60%,0.1)!important; }
+
+      .ice-mega-panel { background:hsl(0,0%,100%)!important; border-color:hsl(214,32%,91%)!important; box-shadow:0 8px 40px rgba(0,0,0,0.1)!important; }
+      .ice-mega-left { background:hsla(217,91%,60%,0.05)!important; }
+      .ice-mega-title { color:hsl(0,0%,5%)!important; }
+      .ice-mega-desc { color:hsl(215,16%,47%)!important; }
+      .ice-mega-see-all { color:hsl(217,91%,60%)!important; }
+      .ice-mega-sub-link { color:hsl(215,16%,47%)!important; }
+      .ice-mega-sub-link:hover { color:hsl(0,0%,5%)!important; background:hsla(217,91%,60%,0.08)!important; }
+      .ice-mega-arrow { color:hsl(217,91%,60%)!important; }
+      .ice-mega-divider { border-color:hsl(214,32%,91%)!important; }
+    `;
+  }
+  
+  else if (step === 1) {
+    // ── Navbar + Mega menus dark — body stays 100% untouched ─────────────────
+    el.textContent = `
+      /* NO :root, NO body overrides — page content completely unchanged */
+
+      .ice-navbar {
+        background:hsla(0,0%,7%,0.98)!important;
+        border-bottom:1px solid hsl(0,0%,18%)!important;
+        box-shadow:0 2px 24px rgba(0,0,0,0.5)!important;
+        backdrop-filter:blur(18px)!important;
+      }
+      .ice-logo-text { color:hsl(0,0%,95%)!important; }
+      .ice-nav-link { color:hsl(0,0%,62%)!important; text-shadow:none!important; transition:color 0.25s,background 0.25s!important; }
+      .ice-nav-link:hover { color:hsl(0,0%,98%)!important; background:hsla(255,255,255,0.07)!important; }
+      .ice-nav-link.active { color:hsl(217,91%,65%)!important; background:hsla(217,91%,60%,0.15)!important; }
+
+      .ice-mega-panel {
+        background:hsl(0,0%,9%)!important;
+        border-color:hsl(0,0%,18%)!important;
+        box-shadow:0 20px 60px rgba(0,0,0,0.65)!important;
+      }
+      .ice-mega-left { background:hsla(217,91%,60%,0.08)!important; }
+      .ice-mega-title { color:hsl(0,0%,95%)!important; }
+      .ice-mega-desc { color:hsl(0,0%,52%)!important; }
+      .ice-mega-see-all { color:hsl(217,91%,65%)!important; }
+      .ice-mega-sub-link { color:hsl(0,0%,52%)!important; }
+      .ice-mega-sub-link:hover { color:hsl(0,0%,95%)!important; background:hsla(255,255,255,0.06)!important; }
+      .ice-mega-arrow { color:hsl(217,91%,60%)!important; }
+      .ice-mega-divider { border-color:hsl(0,0%,18%)!important; }
+    `;
+  }
+  
+
+//   else if (step === 1) {
+//  el.textContent = `
+//   html,
+//   body,
+//   #root,
+//   main,
+//   section,
+//   div {
+//     background-color: #050505 !important;
+//     color: white !important;
+//   }
+
+
+//     .ice-navbar {
+//       background: hsla(0,0%,7%,0.98) !important;
+//       border-bottom: 1px solid hsl(0,0%,18%) !important;
+//       box-shadow: 0 2px 24px rgba(0,0,0,0.5) !important;
+//       backdrop-filter: blur(18px) !important;
+//     }
+
+//     .ice-logo-text { color:hsl(0,0%,95%)!important; }
+//     .ice-nav-link { color:hsl(0,0%,62%)!important; }
+
+//     .ice-mega-panel {
+//       background:hsl(0,0%,9%)!important;
+//       border-color:hsl(0,0%,18%)!important;
+//     }
+//   `;
+// }
+  else {
+    // ── Full dark — everything ────────────────────────────────────────────────
+    el.textContent = `
+      :root {
+        color-scheme: dark;
+        --background:0 0% 5%; --foreground:0 0% 98%;
+        --card:0 0% 8%; --card-foreground:0 0% 98%;
+        --popover:0 0% 5%; --popover-foreground:0 0% 98%;
+        --primary:217 91% 60%; --primary-foreground:0 0% 5%;
+        --secondary:0 0% 12%; --secondary-foreground:0 0% 98%;
+        --muted:0 0% 12%; --muted-foreground:0 0% 60%;
+        --accent:0 0% 12%; --accent-foreground:0 0% 98%;
+        --border:0 0% 15%; --input:0 0% 15%; --ring:217 91% 60%;
+      }
+      body,#root { background-color:hsl(0,0%,5%)!important; color:hsl(0,0%,98%)!important; }
+
+      .ice-navbar { background:hsla(0,0%,5%,0.96)!important; border-bottom:1px solid hsl(0,0%,15%)!important; box-shadow:0 2px 20px rgba(0,0,0,0.4)!important; }
+      .ice-logo-text { color:hsl(0,0%,98%)!important; }
+      .ice-nav-link { color:hsl(0,0%,60%)!important; text-shadow:none!important; transition:color 0.25s,background 0.25s!important; }
+      .ice-nav-link:hover { color:hsl(0,0%,98%)!important; background:hsla(255,255,255,0.06)!important; }
+      .ice-nav-link.active { color:hsl(217,91%,60%)!important; background:hsla(217,91%,60%,0.15)!important; }
+
+      .ice-mega-panel { background:hsl(0,0%,8%)!important; border-color:hsl(0,0%,15%)!important; box-shadow:0 20px 60px rgba(0,0,0,0.7)!important; }
+      .ice-mega-left { background:hsla(217,91%,60%,0.07)!important; }
+      .ice-mega-title { color:hsl(0,0%,98%)!important; }
+      .ice-mega-desc { color:hsl(0,0%,55%)!important; }
+      .ice-mega-see-all { color:hsl(217,91%,60%)!important; }
+      .ice-mega-sub-link { color:hsl(0,0%,55%)!important; }
+      .ice-mega-sub-link:hover { color:hsl(0,0%,98%)!important; background:hsla(255,255,255,0.05)!important; }
+      .ice-mega-arrow { color:hsl(217,91%,60%)!important; }
+      .ice-mega-divider { border-color:hsl(0,0%,15%)!important; }
+    `;
+  }
+
+  localStorage.setItem("theme-step", String(step));
 }
 
 // ─── Theme Toggle ──────────────────────────────────────────────────────────────
 const ThemeToggle = () => {
-  const [isDark, setIsDark] = useState(() => {
+  const [step, setStep] = useState<ThemeStep>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("theme");
-      if (saved) return saved === "dark";
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const saved = localStorage.getItem("theme-step");
+      if (saved === "1") return 1;
+      if (saved === "2") return 2;
+      const legacy = localStorage.getItem("theme");
+      if (legacy === "dark") return 2;
     }
-    return false;
+    return 0;
   });
 
-  useEffect(() => { applyTheme(isDark); }, []); // eslint-disable-line
+  useEffect(() => { applyThemeStep(step); }, []); // eslint-disable-line
 
-  const toggle = () => { const next = !isDark; setIsDark(next); applyTheme(next); };
+  const toggle = () => {
+    // 0 → 1 (navbar dark) → 2 (full dark) → 0 (back to light)
+    const next: ThemeStep = step === 0 ? 1 : step === 1 ? 2 : 0;
+    setStep(next);
+    applyThemeStep(next);
+  };
+
+  const isDark = step === 2;
+  const isHalf = step === 1;
+
+  // Toggle pill bg colour
+  const bgColor  = isDark ? "#1e293b" : isHalf ? "#334155" : "#e2e8f0";
+  const bdrColor = isDark ? "#334155" : isHalf ? "#475569" : "#cbd5e1";
+  // Knob x: 0=light(left,2), 1=half(centre,14), 2=dark(right,26)
+  const knobX    = isDark ? 26 : isHalf ? 14 : 2;
+  const knobBg   = isDark ? "#3b82f6" : isHalf ? "#64748b" : "#ffffff";
+  const knobShadow = "0 1px 4px rgba(0,0,0,0.3)";
 
   return (
-    <button onClick={toggle} aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      style={{ position:"relative", display:"inline-flex", alignItems:"center", width:52, height:28,
-        borderRadius:9999, backgroundColor:isDark?"#3b82f6":"#e2e8f0",
-        border:isDark?"1px solid #2563eb":"1px solid #cbd5e1",
-        cursor:"pointer", flexShrink:0, transition:"background-color 0.25s ease", outline:"none", padding:0 }}>
-      <Sun size={11} strokeWidth={2.5} style={{ position:"absolute", left:7, color:isDark?"#93c5fd":"#eab308", pointerEvents:"none" }} />
-      <Moon size={11} strokeWidth={2.5} style={{ position:"absolute", right:7, color:isDark?"#ffffff":"#94a3b8", pointerEvents:"none" }} />
-      <motion.span animate={{ x: isDark ? 26 : 2 }} transition={{ type:"spring", stiffness:500, damping:35 }}
-        style={{ position:"absolute", left:0, width:22, height:22, borderRadius:"50%", backgroundColor:"#ffffff",
-          boxShadow:"0 1px 3px rgba(0,0,0,0.25)", display:"flex", alignItems:"center", justifyContent:"center", zIndex:1 }}>
-        {isDark ? <Moon size={11} style={{ color:"#3b82f6" }} strokeWidth={2.5} /> : <Sun size={11} style={{ color:"#eab308" }} strokeWidth={2.5} />}
+    <button
+      onClick={toggle}
+      title={
+        step === 0 ? "Step 1: Dark navbar only"
+        : step === 1 ? "Step 2: Full dark mode"
+        : "Back to light mode"
+      }
+      aria-label={step === 0 ? "Light mode" : step === 1 ? "Navbar dark" : "Full dark mode"}
+      style={{
+        position:"relative", display:"inline-flex", alignItems:"center",
+        width:52, height:28, borderRadius:9999,
+        backgroundColor:bgColor, border:`1px solid ${bdrColor}`,
+        cursor:"pointer", flexShrink:0,
+        transition:"background-color 0.3s ease, border-color 0.3s ease",
+        outline:"none", padding:0,
+      }}
+    >
+      <Sun size={11} strokeWidth={2.5} style={{ position:"absolute", left:7, color: step === 0 ? "#eab308" : "#64748b", pointerEvents:"none", transition:"color 0.3s" }} />
+      <Moon size={11} strokeWidth={2.5} style={{ position:"absolute", right:7, color: isDark ? "#93c5fd" : "#94a3b8", pointerEvents:"none", transition:"color 0.3s" }} />
+      <motion.span
+        animate={{ x: knobX }}
+        transition={{ type:"spring", stiffness:500, damping:35 }}
+        style={{
+          position:"absolute", left:0, width:22, height:22, borderRadius:"50%",
+          backgroundColor: knobBg, boxShadow: knobShadow,
+          display:"flex", alignItems:"center", justifyContent:"center", zIndex:1,
+          transition:"background-color 0.3s",
+        }}
+      >
+        {isDark
+          ? <Moon size={11} style={{ color:"#fff" }} strokeWidth={2.5} />
+          : isHalf
+            ? <Moon size={11} style={{ color:"#cbd5e1" }} strokeWidth={2.5} />
+            : <Sun size={11} style={{ color:"#eab308" }} strokeWidth={2.5} />
+        }
       </motion.span>
     </button>
   );
@@ -308,8 +488,8 @@ const MegaDropdown = ({ item, isActive }: { item: NavItem; isActive: boolean }) 
       <Link
         to={item.href}
         className={cn(
-          "inline-flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap",
-          isActive ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-card"
+          "ice-nav-link inline-flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap",
+          isActive ? "active text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-card"
         )}
       >
         {item.name}
@@ -325,22 +505,22 @@ const MegaDropdown = ({ item, isActive }: { item: NavItem; isActive: boolean }) 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.18 }}
-            className="fixed left-0 right-0 top-full h- mt-2 z-50 px-4"
+            className="fixed left-0 right-0 mt-2 z-50 px-4"
             style={{ top: "60px" }}
             onMouseEnter={onEnter}
             onMouseLeave={onLeave}
           >
-            <div className="max-w-6xl mx-auto rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
-              <div className="grid grid-cols-4 divide-x divide-border h-full">
+            <div className="ice-mega-panel max-w-6xl mx-auto rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
+              <div className="grid grid-cols-4 ice-mega-divider divide-x divide-border h-full">
                 {/* Left — title + description + CTA */}
-                <div className="p-6 bg-primary/5 flex flex-col justify-between">
+                <div className="ice-mega-left p-6 bg-primary/5 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-base font-bold text-foreground mb-2">{item.name}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{megaData.description}</p>
+                    <h3 className="ice-mega-title text-base font-bold text-foreground mb-2">{item.name}</h3>
+                    <p className="ice-mega-desc text-sm text-muted-foreground leading-relaxed">{megaData.description}</p>
                   </div>
                   <Link
                     to={item.href}
-                    className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
+                    className="ice-mega-see-all mt-6 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
                   >
                     See all →
                   </Link>
@@ -353,9 +533,9 @@ const MegaDropdown = ({ item, isActive }: { item: NavItem; isActive: boolean }) 
                       <Link
                         key={sub.name}
                         to={sub.href}
-                        className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-primary/8 transition-colors group"
+                        className="ice-mega-sub-link flex items-center gap-2 px-2 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-primary/8 transition-colors group"
                       >
-                        <span className="text-primary text-xs opacity-60 group-hover:opacity-100">→</span>
+                        <span className="ice-mega-arrow text-primary text-xs opacity-60 group-hover:opacity-100">→</span>
                         {sub.name}
                       </Link>
                     ))}
@@ -378,8 +558,7 @@ export const FloatingNavbar = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileOpenItem, setMobileOpenItem] = useState<string | null>(null);
-  // const [items, setItems] = useState<NavItem[]>( defaultNavItems);
-  const [items, setItems] = useState<NavItem[]>( []);
+  const [items, setItems] = useState<NavItem[]>([]);
   const [branding, setBranding] = useState<Branding | null>(null);
   const [showMe, setShowMe] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -398,7 +577,7 @@ export const FloatingNavbar = ({
         const res = await fetch(`${base}/hero`);
         if (!res.ok) throw new Error();
         const data = await res.json();
-        setItems(Array.isArray(data.navItems) && data.navItems.length ? data.navItems :  defaultNavItems);
+        setItems(Array.isArray(data.navItems) && data.navItems.length ? data.navItems : defaultNavItems);
       } catch {
         setItems(defaultNavItems);
       }
@@ -448,23 +627,42 @@ export const FloatingNavbar = ({
     <>
       {/* ── Desktop nav ── */}
       <motion.nav
-  initial={{ y: -100, opacity: 0 }}
-  animate={{ y: 0, opacity: 1 }}
-  transition={{ duration: 0.5 }}
-  className={cn(
-    "fixed top-0 inset-x-0 z-50 px-1 md:px-2 py-3 transition-all duration-300",
-    isScrolled
-      ? "bg-card/90 backdrop-blur-xl border-b border-border shadow-xl"
-      : "bg-card/60 backdrop-blur-sm",
-    className
-  )}
->
-         <div className="flex items-center justify-between w-full max-w-[1600px] mx-auto top-0">
-          {/* Logo */}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className={cn(
+          "ice-navbar fixed top-0 inset-x-0 z-50 px-1 md:px-2 py-3 transition-all duration-300",
+          isScrolled
+            ? "bg-card/90 backdrop-blur-xl border-b border-border shadow-xl"
+            : "bg-card/60 backdrop-blur-sm",
+          className
+        )}
+      >
+        {/* inject scrollbar-hiding rule once */}
+        <style>{`
+          .ice-nav-links { scrollbar-width: none; -ms-overflow-style: none; }
+          .ice-nav-links::-webkit-scrollbar { display: none; }
+        `}</style>
+
+        {/*
+          3-column layout — all on ONE line, never wraps:
+          [logo: shrink-0] [links: overflow-x scroll, fills middle] [auth: shrink-0]
+          The outer nav uses overflow:hidden so nothing can spill.
+        */}
+        <div
+          className="flex items-center w-full max-w-[1600px] mx-auto"
+          style={{ minWidth: 0, overflow: "hidden" }}
+        >
+          {/* ① Logo — fixed, never shrinks */}
           <Link
             to={branding?.href || "/"}
-            className="flex items-center gap-2 font-display font-bold text-xl text-foreground hover:text-primary transition-colors flex-shrink-0 mr-4"
-            style={{ padding: branding?.padding || undefined, background: branding?.background || undefined }}
+            className="ice-logo-text flex items-center gap-2 font-display font-bold text-xl text-foreground hover:text-primary transition-colors"
+            style={{
+              flexShrink: 0,
+              padding: branding?.padding || undefined,
+              background: branding?.background || undefined,
+              marginRight: "8px",
+            }}
           >
             {branding?.navLogoUrl || branding?.logoUrl ? (
               <img
@@ -481,31 +679,59 @@ export const FloatingNavbar = ({
             )}
           </Link>
 
-          {/* Desktop nav links */}
-          <div className="hidden md:flex items-center gap-0.5  flex-1 flex-wrap">
+          {/* ② Nav links — scrollable, fills all remaining middle space */}
+          <div
+            className="ice-nav-links hidden md:flex items-center gap-0.5"
+            style={{
+              flex: "1 1 0%",
+              minWidth: 0,
+              overflowX: "auto",
+              overflowY: "visible",
+              flexWrap: "nowrap",
+            }}
+          >
             {items.map((item) => (
               <MegaDropdown key={item.name} item={item} isActive={location.pathname === item.href} />
             ))}
+          </div>
 
-            {/* Auth */}
-            <div className="ml-auto flex items-center gap-2  flex-shrink-0">
-              {showMe ? (
-                <Link to="/me" className={cn("px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap", location.pathname === "/me" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-card")}>
-                  <span className="inline-flex items-center gap-1"><UserCircle2 className="w-4 h-4" /> Me</span>
-                </Link>
-              ) : showLogin ? (
-                <Link to="/me" className={cn("px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap", location.pathname === "/me" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-card")}>
-                  <span className="inline-flex items-center gap-1"><LogIn className="w-4 h-4" /> Login</span>
-                </Link>
-              ) : null}
-              <ThemeToggle />
-            </div>
+          {/* ③ Auth + Theme — fixed right, never shrinks or wraps */}
+          <div
+            className="hidden md:flex items-center gap-2"
+            style={{ flexShrink: 0, marginLeft: "8px" }}
+          >
+            {showMe ? (
+              <Link
+                to="/me"
+                className={cn(
+                  "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap",
+                  location.pathname === "/me" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-card"
+                )}
+              >
+                <span className="inline-flex items-center gap-1"><UserCircle2 className="w-4 h-4" /> Me</span>
+              </Link>
+            ) : showLogin ? (
+              <Link
+                to="/me"
+                className={cn(
+                  "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap",
+                  location.pathname === "/me" ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-foreground hover:bg-card"
+                )}
+              >
+                <span className="inline-flex items-center gap-1"><LogIn className="w-4 h-4" /> Login</span>
+              </Link>
+            ) : null}
+            <ThemeToggle />
           </div>
 
           {/* Mobile: toggle + hamburger */}
-          <div className="md:hidden ml-auto flex items-center gap-3">
+          <div className="md:hidden flex items-center gap-3" style={{ flexShrink: 0, marginLeft: "auto" }}>
             <ThemeToggle />
-            <button onClick={() => setIsMobileMenuOpen((p) => !p)} className="p-2 text-foreground" aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}>
+            <button
+              onClick={() => setIsMobileMenuOpen((p) => !p)}
+              className="p-2 text-foreground"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -520,7 +746,7 @@ export const FloatingNavbar = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-background/97  backdrop-blur-xl pt-20 overflow-y-auto"
+            className="fixed inset-0 z-40 bg-background/97 backdrop-blur-xl pt-20 overflow-y-auto"
           >
             <div className="flex flex-col px-6 pb-10">
               {items.map((item, index) => {

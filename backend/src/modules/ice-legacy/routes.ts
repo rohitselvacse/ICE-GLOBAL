@@ -1,50 +1,3 @@
-// import { FastifyInstance } from "fastify";
-// import { z } from "zod";
-// import { getDb } from "../../db/mongo";
-// import { defaultIceLegacy } from "./default-content";
-
-// const looseObject = z.record(z.any()).default({});
-
-// const iceLegacySchema = z.object({
-//   founderVision: looseObject,
-//   marketplacePhilosophy: looseObject,
-//   whyIndiaTrustsIce: looseObject,
-//   brandEvolution: looseObject,
-// });
-
-// export default async function iceLegacyRoutes(app: FastifyInstance) {
-//   app.get("/ice-legacy-content", async () => {
-//     const db = await getDb();
-//     const col = db.collection("ice-legacy-content");
-//     const stored = await col.findOne({ key: "default" });
-//     if (!stored) return defaultIceLegacy;
-//     const { _id, key, ...content } = stored;
-//     return { ...defaultIceLegacy, ...content };
-//   });
-
-//   app.put("/ice-legacy-content", { preHandler: [app.authenticate] }, async (request, reply) => {
-//     const parse = iceLegacySchema.safeParse(request.body);
-//     if (!parse.success) {
-//       request.log.warn({ issues: parse.error.issues }, "iceLegacy.update validation failed");
-//       return reply.code(400).send({ message: "Invalid payload" });
-//     }
-
-//     const db = await getDb();
-//     const col = db.collection("ice-legacy-content");
-//     await col.updateOne({ key: "default" }, { $set: { ...parse.data, key: "default" } }, { upsert: true });
-//     request.log.info("iceLegacy.update success");
-//     return parse.data;
-//   });
-
-//   app.post("/ice-legacy-content/restore", { preHandler: [app.authenticate] }, async () => {
-//     const db = await getDb();
-//     const col = db.collection("ice-legacy-content");
-//     await col.updateOne({ key: "default" }, { $set: { ...defaultIceLegacy, key: "default" } }, { upsert: true });
-//     return defaultIceLegacy;
-//   });
-// }
-
-
 
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
@@ -89,20 +42,44 @@ export default async function IceSectionsRoutes(app: FastifyInstance) {
 
   // ── GET all 25 sections ────────────────────────────────────────────────────
   // Frontend: fetch("/api/ice-sections")
-  app.get("/api/ice-sections", async () => {
-    const db     = await getDb();
-    const col    = db.collection(COLLECTION);
-    const stored = await col.findOne({ key: DOC_KEY });
+//   app.get("/api/ice-sections", async () => {
+//     const db     = await getDb();
+//     const col    = db.collection(COLLECTION);
+//     const stored = await col.findOne({ key: DOC_KEY });
 
-    if (!stored) return  defaultIceLegacy 
-;
+//     if (!stored) return  defaultIceLegacy 
+// ;
 
-    const { _id, key, ...sections } = stored;
-    // merge so any missing keys always fall back to default
-    return { ... defaultIceLegacy 
-, ...sections };
-  });
+//     const { _id, key, ...sections } = stored;
+//     // merge so any missing keys always fall back to default
+//     return { ... sections 
+// , ...defaultIceLegacy 
+// //  heroBanner: {
+// //       ...defaultIceLegacy.heroBanner,
+// //       ...sections.heroBanner,
+// //     },
+// };
+//   });
 
+app.get("/api/ice-sections", async () => {
+  const db     = await getDb();
+  const col    = db.collection(COLLECTION);
+  const stored = await col.findOne({ key: DOC_KEY });
+
+  if (!stored) return defaultIceLegacy;
+
+  const { _id, key, ...sections } = stored;
+
+  // ✅ Per-section merge: stored data wins over defaults
+  const merged: Record<string, any> = {};
+  for (const sectionKey of Object.keys(defaultIceLegacy)) {
+    merged[sectionKey] = {
+      ...defaultIceLegacy[sectionKey as keyof typeof defaultIceLegacy],
+      ...sections[sectionKey],
+    };
+  }
+  return merged;
+});
 
   // ── GET single section by key ──────────────────────────────────────────────
   // Frontend: fetch("/api/ice-sections/heroBanner")

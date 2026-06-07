@@ -371,8 +371,8 @@ export const galleryImages = [
 
 export const navItems = [
   { name: "Home", href: "/" },
-  { name: "Ice Legacy", href: "/gallery" },
-  { name: "Exhibited At Ice", href: "/about" },
-  { name: "Contact", href: "/contact" },
+  { name: "Ice Legacy", href: "/galley" },
+  { name: "Exhibited At Ice", href: "/abot" },
+  { name: "Contact", href: "/contac" },
  
 ];
