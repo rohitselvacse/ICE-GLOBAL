@@ -14,3 +14,4 @@ sudo mkdir -p /var/www/iceglobal.in/dist
 sudo rsync -a --delete /root/app/dist/ /var/www/iceglobal.in/dist/
 sudo chown -R www-data:www-data /var/www/iceglobal.in
 ls -la /var/www/iceglobal.in/dist | head
+jhfdhgfjgfukhgkhfhgjkhkjfjghghjghjhgjfhjhhfhgjh
