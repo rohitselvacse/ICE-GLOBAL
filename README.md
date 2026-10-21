@@ -1,7 +1,5 @@
 ## Expo Legacy Archive
 
-Author: Sanjay Shah
-GET /gallery?year=YYYY&category=...&tag=...&search=...&page=1&pageSize=24
 
 http://192.168.1.72:8080/gallery?tag=vip
 
@@ -14,4 +12,3 @@ sudo mkdir -p /var/www/iceglobal.in/dist
 sudo rsync -a --delete /root/app/dist/ /var/www/iceglobal.in/dist/
 sudo chown -R www-data:www-data /var/www/iceglobal.in
 ls -la /var/www/iceglobal.in/dist | head
-jhfdhgfjgfukhgkhfhgjkhkjfjghghjghjhgjfhjhhfhgjh
